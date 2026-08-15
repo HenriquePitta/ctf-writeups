@@ -4,7 +4,7 @@ A collection of writeups from CTF machines and rooms (Hack The Box, TryHackMe) â
 
 ## About
 
-Cybersecurity Engineer with 3+ years of experience in defense and critical infrastructure environments, transitioning into Penetration Testing with a focus on infrastructure/Active Directory and web application security. Strong foundation in vulnerability management, malware analysis, and system hardening (DISA STIG) provides a defender's perspective on attack surfaces and exploitation paths. Hands-on experience with Windows PKI/AD Certificate Services, Palo Alto firewall management, and VMware infrastructure. NATO project exposure.
+Cybersecurity Engineer with 3+ years of experience in defense and critical infrastructure environments, transitioning into Penetration Testing with a focus on infrastructure/Active Directory and web application security. Strong foundation in vulnerability management, malware analysis, and system hardening (DISA STIG) provides a defender's perspective on attack surfaces and exploitation paths. Hands-on experience with Windows PKI/AD Certificate Services, Palo Alto firewall management, and VMware infrastructure. 
 
 ## Writeup Index
 
