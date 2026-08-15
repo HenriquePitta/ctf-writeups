@@ -1,0 +1,9 @@
+# Ficheiros locais de trabalho que não devem ir para o repo público
+*.db
+*.sqlite
+hashes.txt
+*.log
+nmap-*.txt
+scans/
+loot/
+.DS_Store
