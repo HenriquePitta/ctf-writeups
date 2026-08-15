@@ -1,48 +1,48 @@
-# [Nome da Máquina] — [Plataforma]
+# [Machine Name] — [Platform]
 
-**Dificuldade:** —
+**Difficulty:** —
 **OS:** —
-**Data:** —
+**Date:** —
 **IP:** `10.x.x.x`
 
-## Resumo
+## Summary
 
-Breve resumo do vetor de acesso inicial e da via de escalação de privilégios (2-3 frases).
+Brief summary of the initial access vector and privilege escalation path (2-3 sentences).
 
-## Reconhecimento
+## Reconnaissance
 
 ```bash
 nmap -sC -sV <IP>
 ```
 
-Resultado relevante:
+Relevant output:
 
 ```
-[colar output do nmap]
+[paste nmap output]
 ```
 
-## Enumeração
+## Enumeration
 
-Descrição do que foi encontrado em cada serviço/porta.
+Description of what was found on each service/port.
 
-## Acesso Inicial
+## Initial Access
 
-Descrição da vulnerabilidade explorada (CVE se aplicável) e como foi identificada.
+Description of the exploited vulnerability (CVE if applicable) and how it was identified.
 
 ```bash
-[comandos usados]
+[commands used]
 ```
 
-## Pós-Exploração / Movimento Lateral
+## Post-Exploitation / Lateral Movement
 
-Como se obtiveram credenciais ou se passou de um utilizador para outro.
+How credentials were obtained or how access moved from one user to another.
 
-## Escalação de Privilégios
+## Privilege Escalation
 
-Técnica usada para chegar a root/admin.
+Technique used to reach root/admin.
 
 ```bash
-[comandos usados]
+[commands used]
 ```
 
 ## Flags
@@ -50,10 +50,10 @@ Técnica usada para chegar a root/admin.
 - User: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
 - Root: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
 
-## Lições Aprendidas
+## Lessons Learned
 
-Notas sobre a técnica, o que generalizar para próximos CTFs, referências úteis.
+Notes on the technique, what to generalize for future CTFs, useful references.
 
-## Referências
+## References
 
-- [link para CVE / advisory / write-up relacionado]
+- [link to CVE / advisory / related writeup]

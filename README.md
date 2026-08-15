@@ -1,37 +1,37 @@
 # CTF Writeups
 
-Coleção de writeups de máquinas e salas de CTF (Hack The Box, TryHackMe) — técnicas de exploração, escalação de privilégios, e notas de metodologia.
+A collection of writeups from CTF machines and rooms (Hack The Box, TryHackMe) — exploitation techniques, privilege escalation, and methodology notes.
 
-## Sobre
+## About
 
-Cibersegurança / pentest, com foco em infraestrutura, aplicações web e automação. CET em Cibersegurança (ATEC). Experiência prática com Linux (RHEL, Ubuntu, Kali), VMware, e ferramentas de scanning/compliance (Nessus, OpenSCAP, SCC).
+Cybersecurity Engineer with 3+ years of experience in defense and critical infrastructure environments, transitioning into Penetration Testing with a focus on infrastructure/Active Directory and web application security. Strong foundation in vulnerability management, malware analysis, and system hardening (DISA STIG) provides a defender's perspective on attack surfaces and exploitation paths. Hands-on experience with Windows PKI/AD Certificate Services, Palo Alto firewall management, and VMware infrastructure. NATO project exposure.
 
-## Índice de Writeups
+## Writeup Index
 
 ### Hack The Box
 
-| Máquina | Dificuldade | Vetor de Acesso Inicial | Escalação | Data |
+| Machine | Difficulty | Initial Access Vector | Privilege Escalation | Date |
 |---|---|---|---|---|
-| [Reactor](writeups/htb/reactor.md) | — | RCE não autenticado (CVE-2025-55182 — React Server Components) | Node.js Inspector exposto (localhost:9229) | 2026-08-15 |
+| [Reactor](writeups/htb/reactor.md) | — | Unauthenticated RCE (CVE-2025-55182 — React Server Components) | Exposed Node.js Inspector (localhost:9229) | 2026-08-15 |
 
 ### TryHackMe
 
-| Sala | Tópico | Data |
+| Room | Topic | Date |
 |---|---|---|
-| _(por adicionar)_ | | |
+| _(to be added)_ | | |
 
-## Metodologia Geral
+## General Methodology
 
-A abordagem seguida na maioria dos writeups:
+The approach followed in most writeups:
 
-1. **Reconhecimento** — `nmap`, enumeração de serviços e versões
-2. **Enumeração web** — análise de bundles JS/frameworks, `gobuster`, procura de rotas escondidas
-3. **Identificação de vulnerabilidades** — correlação de versões de software com CVEs conhecidos
-4. **Exploração** — acesso inicial via exploit público ou técnica manual
-5. **Pós-exploração** — enumeração local, procura de credenciais, pivoting
-6. **Escalação de privilégios** — análise de SUID, cron jobs, serviços root, grupos especiais (lxd, docker, etc.)
+1. **Reconnaissance** — `nmap`, service and version enumeration
+2. **Web enumeration** — JS bundle/framework analysis, `gobuster`, hidden route discovery
+3. **Vulnerability identification** — correlating exact software versions with known CVEs
+4. **Exploitation** — initial access via public exploit or manual technique
+5. **Post-exploitation** — local enumeration, credential hunting, pivoting
+6. **Privilege escalation** — SUID analysis, cron jobs, root-owned services, special groups (lxd, docker, etc.)
 
-## Estrutura do Repositório
+## Repository Structure
 
 ```
 .
@@ -45,4 +45,4 @@ A abordagem seguida na maioria dos writeups:
 
 ## Disclaimer
 
-Todos os writeups referem-se a máquinas e ambientes de CTF autorizados e projetados para fins educativos (Hack The Box, TryHackMe). Nenhuma técnica aqui descrita deve ser usada contra sistemas sem autorização explícita.
+All writeups refer to authorized CTF machines and environments designed for educational purposes (Hack The Box, TryHackMe). No technique described here should be used against systems without explicit authorization.
