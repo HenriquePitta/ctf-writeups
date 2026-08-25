@@ -18,12 +18,13 @@ Cybersecurity Engineer with 3+ years of experience in defense and critical infra
 
 ### TryHackMe
 
+<div align="center">
+
 [![TryHackMe](https://tryhackme-badges.s3.amazonaws.com/henriquepitta.png)](https://tryhackme.com/p/henriquepitta)
+
 ![](https://img.shields.io/badge/Top%203%25-105%20rooms%20completed-red?style=flat-square&logo=tryhackme)
 
-| Room | Topic | Date |
-|---|---|---|
-| *(writeups to be added)* | | |
+</div>
 
 ## General Methodology
 
