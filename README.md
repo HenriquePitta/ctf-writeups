@@ -26,6 +26,10 @@ Cybersecurity Engineer with 3+ years of experience in defense and critical infra
 
 </div>
 
+| Room | Topic | Date |
+|---|---|---|
+| *(writeups to be added)* | | |
+
 ## General Methodology
 
 The approach followed in most writeups:
