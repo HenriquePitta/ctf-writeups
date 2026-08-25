@@ -12,7 +12,9 @@ Cybersecurity Engineer with 3+ years of experience in defense and critical infra
 
 | Machine | Difficulty | Initial Access Vector | Privilege Escalation | Date |
 |---|---|---|---|---|
-| [Reactor](writeups/htb/reactor.md) | — | Unauthenticated RCE (CVE-2025-55182 — React Server Components) | Exposed Node.js Inspector (localhost:9229) | 2026-08-15 |
+| [Reactor](writeups/htb/reactor.md) | Easy | Unauthenticated RCE (CVE-2025-55182 — React Server Components) | Exposed Node.js Inspector (localhost:9229) | 2026-08-15 |
+| [Cohort](writeups/htb/cohort.md) | Medium | SSRF (decimal IP bypass) → marimo pre-auth RCE (CVE-2026-39987) | PackageKit TOCTOU LPE (CVE-2026-41651) | 2026-08-25 |
+| [DanglingTree](writeups/htb/danglingtree.md) | Hard | WAC Broken Access Control + SmarterMail CVE-2026-23760 | AD CS ESC4 (ForceChangePassword chain) | 2026-08-19 |
 
 ### TryHackMe
 
